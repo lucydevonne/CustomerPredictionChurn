@@ -19,9 +19,12 @@ client = OpenAI(
 )
 
 # Load all the pre-trained machine learning models
-# Loading the XGBoost model from the JSON file
-xgboost_model = xgb.Booster()
-xgboost_model.load_model('xgb_model.json') 
+# Load the XGBoost saved model
+with open('xgb_model.pkl', 'rb') as f:
+    xgboost_model = pickle.load(f)
+
+# Save the model 
+xgboost_model.save_model('xgb_model.json')
 
 random_forest_model = pickle.load(open('rf_model.pkl', "rb"))
 knn_model = pickle.load(open('knn_model.pkl', "rb"))
