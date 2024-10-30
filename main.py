@@ -47,8 +47,11 @@ def prepare_input(credit_score, location, gender, age, tenure, balance, num_prod
 
 # Function to make predictions using the selected models
 def make_predictions(input_df, input_dict):
+    # Using Booster's predict method for XGBoost
+    xgboost_probability = xgboost_model.predict(xgb.DMatrix(input_df))[0]  
+    
     probabilities = {
-        'XGBoost': xgboost_model.predict_proba(input_df)[0][1],
+        'XGBoost': xgboost_probability,
         'Random Forest': random_forest_model.predict_proba(input_df)[0][1],
         'K-Nearest Neighbors': knn_model.predict_proba(input_df)[0][1]
     }
