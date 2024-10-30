@@ -19,14 +19,7 @@ client = OpenAI(
 )
 
 # Load all the pre-trained machine learning models
-#Loading XGBoost model using pickle
-with open('xgb_model.pkl', 'rb') as f:
-    xgboost_model = pickle.load(f)
-
-# Resaving XGBoost model using XGBoost's save_model function 
-xgboost_model.save_model('xgb_model.json')
-
-# loading the model in XGBoost's own format 
+# Loading the XGBoost model from the JSON file
 xgboost_model = xgb.Booster()
 xgboost_model.load_model('xgb_model.json') 
 
