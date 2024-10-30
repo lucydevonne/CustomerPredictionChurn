@@ -7,6 +7,7 @@ from openai import OpenAI  # Import OpenAI for interacting with OpenAI's API
 from utils import create_gauge_chart, create_model_probability_chart
 import utils as ut
 import uuid
+import xgboost as xgb 
 
 # Get the Groq API key from environment variables
 groq_api_key = os.environ.get('GROQ_API_KEY')
@@ -18,7 +19,17 @@ client = OpenAI(
 )
 
 # Load all the pre-trained machine learning models
-xgboost_model = xgboost_model.save_model('xgb_model.json')(open('xgb_model.pkl', "rb"))
+#Loading XGBoost model using pickle
+with open('xgb_model.pkl', 'rb') as f:
+    xgboost_model = pickle.load(f)
+
+# Resaving XGBoost model using XGBoost's save_model function 
+xgboost_model.save_model('xgb_model.json')
+
+# loading the model in XGBoost's own format 
+xgboost_model = xgb.Booster()
+xgboost_model.load_model('xgb_model.json') 
+
 random_forest_model = pickle.load(open('rf_model.pkl', "rb"))
 knn_model = pickle.load(open('knn_model.pkl', "rb"))
 
